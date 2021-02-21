@@ -1,0 +1,120 @@
+<header>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" href="#">PayPal Smart Button Integration Demo</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/marcsalvador/paypal-demo" tooltip="Visit GitHub Repositiry"
+            placement="bottom">
+            <i class="fab fa-github"></i>&nbsp;<span class="d-sm-none d-md-none d-lg-none">Visit GitHub
+              Repository</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/marcsalvador/paypal-demo/archive/master.zip"
+            tooltip="Download Code" placement="bottom">
+            <i class="fas fa-download"></i>&nbsp;<span class="d-sm-none d-md-none d-lg-none">Download Code</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link">
+            <i class="fas fa-code-branch"></i>&nbsp;{{environment.package.version}}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</header>
+
+<section class="container-fluid">
+  <br>
+  <form [formGroup]="formGroup" autocomplete="off" novalidate (ngSubmit)="submit()">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Single Smart Button</h1>
+        <table class="table full-width">
+          <tr>
+            <th>Item</th>
+            <th>QTY</th>
+            <th>Amount</th>
+          </tr>
+          <tr>
+            <td>
+              Sample Item
+            </td>
+            <td>
+              1
+            </td>
+            <td class="text-center">
+              5
+            </td>
+          </tr>
+        </table>
+        <div class="text-center" id="singleSmartButton"></div>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Multiple Smart Button</h1>
+        <table class="table full-width">
+          <tr>
+            <th>Item</th>
+            <th class="text-right">QTY</th>
+            <th class="text-right">Amount</th>
+            <th class="text-right">Pay</th>
+          </tr>
+          <tr *ngFor="let item of items; let i = index">
+            <td>
+              {{item.description}}
+            </td>
+            <td class="text-right">
+              {{item.quantity}}
+            </td>
+            <td class="text-right">
+              {{item.amount | currency}}
+            </td>
+            <td class="text-right">
+              <div [id]="'multipleButton'+i"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Multiple Item and Single Smart Button</h1>
+        <table class="table full-width">
+          <tr>
+            <th>Item</th>
+            <th class="text-right">QTY</th>
+            <th class="text-right">Amount</th>
+          </tr>
+          <tr *ngFor="let item of items; let i = index">
+            <td>
+              {{item.description}}
+            </td>
+            <td class="text-right">
+              {{item.quantity}}
+            </td>
+            <td class="text-right">
+              {{item.amount | currency}}
+            </td>
+          </tr>
+        </table>
+        <div class="text-center" id="multiItemOneButton"></div>
+      </div>
+    </div>
+    <br>
+  </form>
+</section>
