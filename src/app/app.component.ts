@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // Style
     const styleConfig: PayPalStyleConfiguration = {
-      layout: 'vertical',
+      layout: 'horizontal',
       size: 'small',
       tagline: true,
       color: 'gold',
@@ -142,10 +142,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.paypalService.loadSingleButton(paypalButton);
 
       paypalButton.id = 'singleRectStyleSmartButton';
-      paypalButton.style.tagline = true;
+      paypalButton.style.tagline = false;
       paypalButton.style.shape = 'rect';
       this.paypalService.loadSingleButton(paypalButton);
-
+      
       // Tag
       paypalButton.id = 'singleNoTagStyleSmartButton';
       paypalButton.style.tagline = false;
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       paypalButton.id = 'singleWithTagStyleSmartButton';
       paypalButton.style.tagline = true;
-      this.paypalService.loadSingleButton(paypalButton);
+      this.paypalService.loadSingleButton(paypalButton);      
 
       // Label
       paypalButton.id = 'singlePayPalStyleSmartButton';

@@ -123,6 +123,9 @@ export class PaypalService {
 
   private loadPayPalSmartPaymentButton(): void {
     this.buttons.forEach((i) => {
+      if (i.style != null && i.style.layout == 'vertical') {
+        i.style.tagline = false;
+      }
       paypal.Buttons({
         style: i.style == null ? this.defaultStyleConfig : i.style,
 
