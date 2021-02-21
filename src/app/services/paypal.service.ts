@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 declare let paypal: any;
 
-export class PayPalButtonAction {
+export class PayPalButton {
   public id = '';
   public items: PayPalItem[];
   public transactionId = '';
@@ -12,6 +12,7 @@ export class PayPalButtonAction {
   public clickCallBack: any;
   public cancelCallBack: any;
   public successCallback: any;
+  public style: PayPalStyleConfiguration;
 }
 
 export class PayPalItem {
@@ -27,17 +28,34 @@ export interface ScriptModel {
   loaded: boolean
 }
 
+export class PayPalStyleConfiguration {
+  public layout = 'horizontal';
+  public size =  'small';
+  public tagline = false;
+  public label = 'paypal';
+  public color = 'blue';
+  public shape = 'rect'; 
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class PaypalService {
 
-  private buttons: PayPalButtonAction[] = [];
+  private buttons: PayPalButton[] = [];
+  private defaultStyleConfig: PayPalStyleConfiguration = {
+    layout: 'horizontal',
+    size: 'small',
+    tagline: false,
+    color: 'blue',
+    shape: 'rect',
+    label: 'pay'
+  };
 
   constructor() {
   }
 
-  init(): Observable<any> {
+  init(style: PayPalStyleConfiguration = null): Observable<any> {
     let clientId: string = '';
     if (environment.paypal.mode === 'sandbox') {
       clientId = environment.paypal.sandboxClientId;
@@ -52,16 +70,18 @@ export class PaypalService {
       loaded: false,
     };
 
+    if (style != null) { this.defaultStyleConfig = style };
+
     return this.load(script);
   }
 
-  loadSingleButton(button: PayPalButtonAction) {
+  loadSingleButton(button: PayPalButton) {
     this.buttons = [];
     this.buttons.push(button);
     this.loadPayPalSmartPaymentButton();
   }  
 
-  loadMultiButton(buttons: PayPalButtonAction[]) {
+  loadMultiButton(buttons: PayPalButton[]) {
     this.buttons = buttons;
     this.loadPayPalSmartPaymentButton();
   }
@@ -103,12 +123,7 @@ export class PaypalService {
   private loadPayPalSmartPaymentButton(): void {
     this.buttons.forEach((i) => {
       paypal.Buttons({
-        style: {
-          layout: 'horizontal',
-          size: 'small',
-          tagline: false,
-          color: 'blue',
-        },
+        style: i.style == null ? this.defaultStyleConfig : i.style,
 
         onClick: (data: any, actions: any) => {
           if (i.clickCallBack == null || i.clickCallBack == undefined) return true;

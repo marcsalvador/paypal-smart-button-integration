@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { PayPalButtonAction, PayPalItem as PayPalItem, PaypalService } from './services/paypal.service';
+import { PayPalButton, PayPalItem as PayPalItem, PaypalService, PayPalStyleConfiguration } from './services/paypal.service';
 
 @Component({
   selector: 'app-root',
@@ -51,18 +51,19 @@ export class AppComponent implements OnInit, AfterViewInit {
       amount: 1,
       quantity: 1
     };
-    const singleButton: PayPalButtonAction = {
+    const singleButton: PayPalButton = {
       items : [item],
       id:'singleSmartButton',
       transactionId: '',
       errorCallback: () => { },
       cancelCallBack: () => { },
       successCallback: () => { },
-      clickCallBack: (data: any, item: PayPalButtonAction) => { console.log(data, item); return true; }
+      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
+      style: null
     };
 
     // Multiple Button
-    const multipleItems: PayPalButtonAction[] = [];
+    const multipleItems: PayPalButton[] = [];
     this.items.map((x, index) => { 
       const mItem: PayPalItem= {
         description: x.description,
@@ -77,7 +78,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         errorCallback: () => { },
         cancelCallBack: () => { },
         successCallback: () => { },
-        clickCallBack: (data: any, item: PayPalButtonAction) => { console.log(data, item); return true; }
+        clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
+        style: null
       })
     });
 
@@ -92,14 +94,35 @@ export class AppComponent implements OnInit, AfterViewInit {
       };
       multiItems.push(mItem);
     });    
-    const multiItemOneButton: PayPalButtonAction = {
+    const multiItemOneButton: PayPalButton = {
       items : multiItems,
       id:'multiItemOneButton',
       transactionId: '',
       errorCallback: () => { },
       cancelCallBack: () => { },
       successCallback: () => { },
-      clickCallBack: (data: any, item: PayPalButtonAction) => { console.log(data, item); return true; }
+      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
+      style: null
+    };
+
+    // Style
+    const styleConfig: PayPalStyleConfiguration = {
+      layout: 'vertical',
+      size: 'small',
+      tagline: true,
+      color: 'gold',
+      shape: 'rect',
+      label: 'paypal'
+    };
+    const paypalButton: PayPalButton = {
+      items: [item],
+      id: 'singleVerticalStyleSmartButton',
+      transactionId: '',
+      errorCallback: () => { },
+      cancelCallBack: () => { },
+      successCallback: () => { },
+      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
+      style: styleConfig
     };
 
     // Load
@@ -107,6 +130,76 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.paypalService.loadSingleButton(singleButton);
       this.paypalService.loadSingleButton(multiItemOneButton); 
       this.paypalService.loadMultiButton(multipleItems); 
+
+      // Layout
+      paypalButton.id = 'singleVerticalStyleSmartButton';
+      paypalButton.style.layout = 'vertical';
+      paypalButton.style.tagline = false;
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleHorizontalStyleSmartButton';
+      paypalButton.style.layout = 'horizontal';
+      paypalButton.style.tagline = true;
+      this.paypalService.loadSingleButton(paypalButton);
+      
+      // Style
+      paypalButton.id = 'singleBlueStyleSmartButton';
+      paypalButton.style.color = 'blue';
+      this.paypalService.loadSingleButton(paypalButton);
+      
+      paypalButton.id = 'singleSilverStyleSmartButton';
+      paypalButton.style.color = 'silver';
+      this.paypalService.loadSingleButton(paypalButton);
+      
+      paypalButton.id = 'singleWhiteStyleSmartButton';
+      paypalButton.style.color = 'white';
+      this.paypalService.loadSingleButton(paypalButton);
+      
+      paypalButton.id = 'singleBlackStyleSmartButton';
+      paypalButton.style.color = 'black';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleGoldStyleSmartButton';
+      paypalButton.style.color = 'gold';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      // Shape
+      paypalButton.id = 'singlePillStyleSmartButton';
+      paypalButton.style.shape = 'pill';
+      paypalButton.style.tagline = false;
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleRectStyleSmartButton';
+      paypalButton.style.tagline = true;
+      paypalButton.style.shape = 'rect';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      // Tag
+      paypalButton.id = 'singleNoTagStyleSmartButton';
+      paypalButton.style.tagline = false;
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleWithTagStyleSmartButton';
+      paypalButton.style.tagline = true;
+      this.paypalService.loadSingleButton(paypalButton);
+
+      // Label
+      paypalButton.id = 'singlePayPalStyleSmartButton';
+      paypalButton.style.label = 'paypal';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singlePayStyleSmartButton';
+      paypalButton.style.label = 'pay';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleCheckoutStyleSmartButton';
+      paypalButton.style.label = 'checkout';
+      this.paypalService.loadSingleButton(paypalButton);
+
+      paypalButton.id = 'singleBuyNowleSmartButton';
+      paypalButton.style.label = 'buynow';
+      this.paypalService.loadSingleButton(paypalButton);  
+
     }, () => { 
       
     });

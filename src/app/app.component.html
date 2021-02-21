@@ -1,8 +1,7 @@
 <header>
-
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <a class="navbar-brand" href="#">PayPal Smart Button Integration Demo</a>
+    <a class="navbar-brand" href="#">PayPal Smart Payment Button</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,14 +11,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/marcsalvador/paypal-demo" tooltip="Visit GitHub Repositiry"
-            placement="bottom">
+          <a class="nav-link" href="https://github.com/marcsalvador/paypal-smart-button-integration"
+            tooltip="Visit GitHub Repositiry" placement="bottom">
             <i class="fab fa-github"></i>&nbsp;<span class="d-sm-none d-md-none d-lg-none">Visit GitHub
               Repository</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/marcsalvador/paypal-demo/archive/master.zip"
+          <a class="nav-link" href="https://github.com/marcsalvador/paypal-smart-button-integration/archive/master.zip"
             tooltip="Download Code" placement="bottom">
             <i class="fas fa-download"></i>&nbsp;<span class="d-sm-none d-md-none d-lg-none">Download Code</span>
           </a>
@@ -32,89 +31,196 @@
       </ul>
     </div>
   </nav>
-
 </header>
 
 <section class="container-fluid">
   <br>
   <form [formGroup]="formGroup" autocomplete="off" novalidate (ngSubmit)="submit()">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title">Single Smart Button</h1>
-        <table class="table full-width">
-          <tr>
-            <th>Item</th>
-            <th>QTY</th>
-            <th>Amount</th>
-          </tr>
-          <tr>
-            <td>
-              Sample Item
-            </td>
-            <td>
-              1
-            </td>
-            <td class="text-center">
-              5
-            </td>
-          </tr>
-        </table>
-        <div class="text-center" id="singleSmartButton"></div>
+    <div class="row">
+      <div class="col col-sm-6">
+        <h2>Button Implementation</h2>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Single Smart Button</h1>
+            <table class="table full-width">
+              <tr>
+                <th>Item</th>
+                <th class="text-right">QTY</th>
+                <th class="text-right">Amount</th>
+              </tr>
+              <tr>
+                <td>
+                  Sample Item
+                </td>
+                <td class="text-right">
+                  1
+                </td>
+                <td class="text-right">
+                  5
+                </td>
+              </tr>
+            </table>
+            <div class="text-center" id="singleSmartButton"></div>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Multiple Smart Button</h1>
+            <table class="table full-width">
+              <tr>
+                <th>Item</th>
+                <th class="text-right">QTY</th>
+                <th class="text-right">Amount</th>
+                <th class="text-right">Pay</th>
+              </tr>
+              <tr *ngFor="let item of items; let i = index">
+                <td>
+                  {{item.description}}
+                </td>
+                <td class="text-right">
+                  {{item.quantity}}
+                </td>
+                <td class="text-right">
+                  {{item.amount | currency}}
+                </td>
+                <td class="text-right">
+                  <div [id]="'multipleButton'+i"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Multiple Item and Single Smart Button</h1>
+            <table class="table full-width">
+              <tr>
+                <th>Item</th>
+                <th class="text-right">QTY</th>
+                <th class="text-right">Amount</th>
+              </tr>
+              <tr *ngFor="let item of items; let i = index">
+                <td>
+                  {{item.description}}
+                </td>
+                <td class="text-right">
+                  {{item.quantity}}
+                </td>
+                <td class="text-right">
+                  {{item.amount | currency}}
+                </td>
+              </tr>
+            </table>
+            <div class="text-center" id="multiItemOneButton"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm-6">
+        <h2>Style</h2>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Layout</h1>
+
+            <div class="row">
+              <div class="col">
+                <h3>Horizontal</h3>
+                <div class="text-center" id="singleHorizontalStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>Vertical</h3>
+                <div class="text-center" id="singleVerticalStyleSmartButton"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Color</h1>
+
+            <div class="row">
+              <div class="col">
+                <h3>Gold</h3>
+                <div class="text-center" id="singleGoldStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>Blue</h3>
+                <div class="text-center" id="singleBlueStyleSmartButton"></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <h3>Silver</h3>
+                <div class="text-center" id="singleSilverStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>Whilte</h3>
+                <div class="text-center" id="singleWhiteStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>Black</h3>
+                <div class="text-center" id="singleBlackStyleSmartButton"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h1 class="card-title">Shape</h1>
+                <h3>Rectangular</h3>
+                <div class="text-center" id="singleRectStyleSmartButton"></div>
+                <h3>Pill</h3>
+                <div class="text-center" id="singlePillStyleSmartButton"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h1 class="card-title">Tagline</h1>
+                <h3>With Tagline</h3>
+                <div class="text-center" id="singleWithTagStyleSmartButton"></div>
+                <h3>No Tagline</h3>
+                <div class="text-center" id="singleNoTagStyleSmartButton"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Label</h1>
+            <div class="row">
+              <div class="col">
+                <h3>PayPal</h3>
+                <div class="text-center" id="singlePayPalStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>Pay</h3>
+                <div class="text-center" id="singlePayStyleSmartButton"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h3>Checkout</h3>
+                <div class="text-center" id="singleCheckoutStyleSmartButton"></div>
+              </div>
+              <div class="col">
+                <h3>BuyNow</h3>
+                <div class="text-center" id="singleBuyNowleSmartButton"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <br>
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title">Multiple Smart Button</h1>
-        <table class="table full-width">
-          <tr>
-            <th>Item</th>
-            <th class="text-right">QTY</th>
-            <th class="text-right">Amount</th>
-            <th class="text-right">Pay</th>
-          </tr>
-          <tr *ngFor="let item of items; let i = index">
-            <td>
-              {{item.description}}
-            </td>
-            <td class="text-right">
-              {{item.quantity}}
-            </td>
-            <td class="text-right">
-              {{item.amount | currency}}
-            </td>
-            <td class="text-right">
-              <div [id]="'multipleButton'+i"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <br>
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title">Multiple Item and Single Smart Button</h1>
-        <table class="table full-width">
-          <tr>
-            <th>Item</th>
-            <th class="text-right">QTY</th>
-            <th class="text-right">Amount</th>
-          </tr>
-          <tr *ngFor="let item of items; let i = index">
-            <td>
-              {{item.description}}
-            </td>
-            <td class="text-right">
-              {{item.quantity}}
-            </td>
-            <td class="text-right">
-              {{item.amount | currency}}
-            </td>
-          </tr>
-        </table>
-        <div class="text-center" id="multiItemOneButton"></div>
-      </div>
-    </div>
-    <br>
   </form>
+  <br>
 </section>
