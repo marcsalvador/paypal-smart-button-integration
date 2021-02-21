@@ -1,7 +1,7 @@
-import { collectExternalReferences } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
 declare let paypal: any;
 
 export class PayPalButton {
@@ -53,6 +53,7 @@ export class PaypalService {
   };
 
   constructor() {
+
   }
 
   init(style: PayPalStyleConfiguration = null): Observable<any> {

@@ -1,6 +1,4 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { PayPalButton, PayPalItem as PayPalItem, PaypalService, PayPalStyleConfiguration } from './services/paypal.service';
 
@@ -11,10 +9,6 @@ import { PayPalButton, PayPalItem as PayPalItem, PaypalService, PayPalStyleConfi
 })
 export class AppComponent implements OnInit, AfterViewInit {
   public environment = environment;
-
-  public formGroup!: FormGroup;
-  public response = '';
-
   public items = [
     { description: 'Sample Item 1', unit_amount: 5, quantity: 1, amount: 5 },
     { description: 'Sample Item 2', unit_amount: 10, quantity: 1, amount: 10 },
@@ -23,45 +17,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     { description: 'Sample Item 5', unit_amount: 25, quantity: 1, amount: 25 }
   ];
 
-  constructor(
-    public formBuilder: FormBuilder,
-    public router: Router,
-    public paypalService: PaypalService) {
+  constructor(public paypalService: PaypalService) {
   }
 
   ngOnInit(): void {
-    let appPath = '';
-    if (this.router.url !== '/') {
-      appPath = document.location.href.replace(this.router.url, '') + '/';
-    }
-    else {
-      appPath = document.location.href;
-    }
-    this.formGroup = this.formBuilder.group({
-      timeWithMat: new FormControl(null),
-      timeNoMat: new FormControl(null)
-    });
+
   }
 
   ngAfterViewInit(): void {
-    // Single Button
-    const item: PayPalItem= {
-      description: 'Single Button Sample',
-      unit_amount: 1,
-      amount: 1,
-      quantity: 1
-    };
-    const singleButton: PayPalButton = {
-      items : [item],
-      id:'singleSmartButton',
-      transactionId: '',
-      errorCallback: () => { },
-      cancelCallBack: () => { },
-      successCallback: () => { },
-      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
-      style: null
-    };
-
     // Multiple Button
     const multipleItems: PayPalButton[] = [];
     this.items.map((x, index) => { 
@@ -105,6 +68,24 @@ export class AppComponent implements OnInit, AfterViewInit {
       style: null
     };
 
+    // Single Button
+    const item: PayPalItem= {
+      description: 'Single Button Sample',
+      unit_amount: 1,
+      amount: 1,
+      quantity: 1
+    };
+    const paypalButton: PayPalButton = {
+      items : [item],
+      id:'singleSmartButton',
+      transactionId: '',
+      errorCallback: () => { },
+      cancelCallBack: () => { },
+      successCallback: () => { },
+      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
+      style: null
+    };
+
     // Style
     const styleConfig: PayPalStyleConfiguration = {
       layout: 'vertical',
@@ -114,20 +95,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       shape: 'rect',
       label: 'paypal'
     };
-    const paypalButton: PayPalButton = {
-      items: [item],
-      id: 'singleVerticalStyleSmartButton',
-      transactionId: '',
-      errorCallback: () => { },
-      cancelCallBack: () => { },
-      successCallback: () => { },
-      clickCallBack: (data: any, item: PayPalButton) => { console.log(data, item); return true; },
-      style: styleConfig
-    };
+    paypalButton.style = styleConfig;
 
     // Load
     this.paypalService.init().subscribe(() => { 
-      this.paypalService.loadSingleButton(singleButton);
+      this.paypalService.loadSingleButton(paypalButton);
       this.paypalService.loadSingleButton(multiItemOneButton); 
       this.paypalService.loadMultiButton(multipleItems); 
 
@@ -203,17 +175,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }, () => { 
       
     });
-  }
-
-  submit(): void {
-    console.log(this.formGroup);
-    if (!this.formGroup.valid) {
-      alert('Please Fill up required Fields.');
-      return;
-    }
-
-    const model = this.formGroup.getRawValue();
-    this.response = JSON.stringify(model);
   }
 }
 
